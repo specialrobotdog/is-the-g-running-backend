@@ -1,5 +1,5 @@
 const express = require('express');
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const axios = require('axios');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,10 +10,8 @@ const MTA_G_TRAIN_URL = 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/
 // Fetch G Train status
 async function getGTrainStatus() {
     try {
-        const response = await fetch(MTA_G_TRAIN_URL);
-        if (!response.ok) throw new Error("Failed to fetch MTA data");
-
-        return { running: true }; // Placeholder (Real parsing needed)
+        const response = await axios.get(MTA_G_TRAIN_URL);
+        return { running: true }; // Placeholder (real parsing needed)
     } catch (error) {
         console.error("Error fetching MTA data:", error);
         return { running: false };
